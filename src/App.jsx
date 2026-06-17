@@ -64,7 +64,7 @@ export default function App() {
       if (!m) return
       m.volume = 0
       m.play().catch(() => {})
-      fadeAudio(m, 0, 0.50, 3000)
+      fadeAudio(m, 0, 0.35, 3000)
       fadeAudio(vinylRef.current, 1, 0, 3000, () => {
         vinylRef.current?.pause()
       })
