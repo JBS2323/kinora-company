@@ -7,6 +7,7 @@ const PLAYLIST = [
 
 export default function App() {
   const [lit, setLit] = useState(false)
+  const [bgLoaded, setBgLoaded] = useState(false)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
   const matchRef = useRef(null)
   const vinylRef = useRef(null)
@@ -45,7 +46,7 @@ export default function App() {
     }, stepTime)
   }
 
-  const handleHover = () => {
+  const handleClick = () => {
     if (lit) return
     setLit(true)
     if (matchRef.current) {
@@ -80,24 +81,29 @@ export default function App() {
   }, [])
 
   return (
-    <div className="stage" onPointerDown={unlockAudio} onKeyDown={unlockAudio}>
-      <img
-        className={`bg ${lit ? 'fade-out' : ''}`}
-        src="/KINORA-LANDING.png"
-        alt="Kinora"
-      />
-      <img
-        className={`bg ${lit ? 'fade-in' : 'hidden'}`}
-        src="/KINORA-LANDING-2.png"
-        alt="Kinora — currently gathering"
-      />
+    <div className={`stage ${bgLoaded ? 'loaded' : ''}`} onPointerDown={unlockAudio} onKeyDown={unlockAudio}>
+      <picture>
+        <source media="(max-width: 640px)" srcSet="/KINORA-LANDING-mobile.svg" />
+        <img
+          className={`bg ${lit ? 'fade-out' : ''}`}
+          src="/KINORA-LANDING.svg"
+          alt="Kinora"
+          onLoad={() => setBgLoaded(true)}
+        />
+      </picture>
+      <picture>
+        <source media="(max-width: 640px)" srcSet="/KINORA-LANDING-2-mobile.svg" />
+        <img
+          className={`bg ${lit ? 'fade-in' : 'hidden'}`}
+          src="/KINORA-LANDING-2.svg"
+          alt="Kinora — currently gathering"
+        />
+      </picture>
 
       <button
         className="logo-hotspot"
         aria-label="Light the candle"
-        onMouseEnter={handleHover}
-        onFocus={handleHover}
-        onClick={handleHover}
+        onClick={handleClick}
       />
 
       <div className={`links ${lit ? 'visible' : ''}`}>
