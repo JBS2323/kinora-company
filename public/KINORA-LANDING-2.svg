@@ -31,7 +31,7 @@
       }
 
       .st4, .st5 {
-        font-family: Pragmatica-Book, Pragmatica;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         stroke-width: .15px;
       }
 

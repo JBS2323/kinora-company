@@ -63,7 +63,7 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: clamp(0.75rem, 2vw, 1.5rem);
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: clamp(0.55rem, 1.2vw, 0.82rem);
   font-weight: 700;
   letter-spacing: 0.28em;
