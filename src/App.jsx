@@ -45,7 +45,7 @@ export default function App() {
     }, stepTime)
   }
 
-  const handleHover = () => {
+  const handleClick = () => {
     if (lit) return
     setLit(true)
     if (matchRef.current) {
@@ -83,21 +83,19 @@ export default function App() {
     <div className="stage" onPointerDown={unlockAudio} onKeyDown={unlockAudio}>
       <img
         className={`bg ${lit ? 'fade-out' : ''}`}
-        src="/KINORA-LANDING.png"
+        src="/KINORA-LANDING.svg"
         alt="Kinora"
       />
       <img
         className={`bg ${lit ? 'fade-in' : 'hidden'}`}
-        src="/KINORA-LANDING-2.png"
+        src="/KINORA-LANDING-2.svg"
         alt="Kinora — currently gathering"
       />
 
       <button
         className="logo-hotspot"
         aria-label="Light the candle"
-        onMouseEnter={handleHover}
-        onFocus={handleHover}
-        onClick={handleHover}
+        onClick={handleClick}
       />
 
       <div className={`links ${lit ? 'visible' : ''}`}>
