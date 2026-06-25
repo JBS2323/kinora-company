@@ -7,7 +7,7 @@
       }
 
       .cls-3 {
-        font-family: Pragmatica-Book, Pragmatica;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 9px;
         stroke-width: .15px;
       }
