@@ -63,7 +63,7 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: clamp(0.75rem, 2vw, 1.5rem);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Pragmatica', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: clamp(0.55rem, 1.2vw, 0.82rem);
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -96,7 +96,107 @@ html, body, #root {
   opacity: 0.5;
 }
 
+.bottom-bar {
+  position: absolute;
+  bottom: clamp(1rem, 2.5vh, 2rem);
+  left: clamp(1.5rem, 3vw, 3rem);
+  right: clamp(1.5rem, 3vw, 3rem);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(0.42rem, 0.55vw, 0.6rem);
+  letter-spacing: 0.22em;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.bottom-bar::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.bottom-bar.visible {
+  opacity: 1;
+}
+
+.bar-text {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.coords {
+  position: absolute;
+  top: clamp(3rem, 18vh, 9rem);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-align: center;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(0.6rem, 1.1vw, 1rem);
+  letter-spacing: 0.23em;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.6s ease 1s;
+}
+
+.coords.visible {
+  opacity: 1;
+}
+
+.mute-btn {
+  position: absolute;
+  bottom: clamp(2.5rem, 6vh, 4rem);
+  right: clamp(1.2rem, 3vw, 2rem);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #d9d9d9;
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mute-btn:hover { opacity: 0.9; }
+.mute-btn:focus { outline: none; }
+.mute-btn.muted { opacity: 0.3; }
+.mute-btn.muted:hover { opacity: 0.7; }
+
+
 @media (max-width: 640px) {
+  .bottom-bar {
+    justify-content: center;
+    font-size: clamp(0.42rem, 2.2vw, 0.55rem);
+  }
+
+  .bottom-bar::after {
+    display: none;
+  }
+
+  .bar-text {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .coords {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: normal;
+    font-size: clamp(0.6rem, 3vw, 0.8rem);
+  }
+
+  .coord-sep {
+    display: none;
+  }
+
   .links {
     flex-direction: column;
     gap: 0.9rem;
