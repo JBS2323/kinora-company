@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import MusicNoteIcon from '@mui/icons-material/MusicNote'
+import MusicOffIcon from '@mui/icons-material/MusicOff'
 import './App.css'
 
 const PLAYLIST = [
@@ -9,6 +11,9 @@ export default function App() {
   const [lit, setLit] = useState(false)
   const [bgLoaded, setBgLoaded] = useState(false)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
+  const [musicPlaying, setMusicPlaying] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const musicVolumeRef = useRef(0.18)
   const matchRef = useRef(null)
   const vinylRef = useRef(null)
   const musicRef = useRef(null)
@@ -65,11 +70,26 @@ export default function App() {
       if (!m) return
       m.volume = 0
       m.play().catch(() => {})
-      fadeAudio(m, 0, 0.35, 3000)
+      fadeAudio(m, 0, 0.18, 3000, () => {
+        musicVolumeRef.current = 0.18
+        setMusicPlaying(true)
+      })
       fadeAudio(vinylRef.current, 1, 0, 3000, () => {
         vinylRef.current?.pause()
       })
     }, 2800)
+  }
+
+  const toggleMute = () => {
+    const m = musicRef.current
+    if (!m) return
+    if (muted) {
+      m.volume = musicVolumeRef.current
+      setMuted(false)
+    } else {
+      m.volume = 0
+      setMuted(true)
+    }
   }
 
   useEffect(() => {
@@ -82,23 +102,17 @@ export default function App() {
 
   return (
     <div className={`stage ${bgLoaded ? 'loaded' : ''}`} onPointerDown={unlockAudio} onKeyDown={unlockAudio}>
-      <picture>
-        <source media="(max-width: 640px)" srcSet="/KINORA-LANDING-mobile.svg" />
-        <img
-          className={`bg ${lit ? 'fade-out' : ''}`}
-          src="/KINORA-LANDING.svg"
-          alt="Kinora"
-          onLoad={() => setBgLoaded(true)}
-        />
-      </picture>
-      <picture>
-        <source media="(max-width: 640px)" srcSet="/KINORA-LANDING-2-mobile.svg" />
-        <img
-          className={`bg ${lit ? 'fade-in' : 'hidden'}`}
-          src="/KINORA-LANDING-2.svg"
-          alt="Kinora — currently gathering"
-        />
-      </picture>
+      <img
+        className={`bg ${lit ? 'fade-out' : ''}`}
+        src="/KINORA-LANDING.svg"
+        alt="Kinora"
+        onLoad={() => setBgLoaded(true)}
+      />
+      <img
+        className={`bg ${lit ? 'fade-in' : 'hidden'}`}
+        src="/KINORA-LANDING-2.svg"
+        alt="Kinora — currently gathering"
+      />
 
       <button
         className="logo-hotspot"
@@ -106,11 +120,31 @@ export default function App() {
         onClick={handleClick}
       />
 
+      <div className={`bottom-bar ${bgLoaded ? 'visible' : ''}`}>
+        <span className="bar-text">KINORA &amp; COMPANY | TORONTO, ONTARIO, CANADA | ENERGY AROUND THE TABLE</span>
+      </div>
+
+      <div className={`coords ${lit ? 'visible' : ''}`}>
+        <span className="coord-location">43.6548° N, 79.3883° W</span>
+        <span className="coord-sep"> | </span>
+        <span className="coord-status">CURRENTLY GATHERING</span>
+      </div>
+
       <div className={`links ${lit ? 'visible' : ''}`}>
         <a href="mailto:info@kinoraco.com">REQUEST AN INTRODUCTION</a>
         <span className="sep">·</span>
         <a href="mailto:circle@kinoraco.com">ENTER THE CONVERSATION</a>
       </div>
+
+      {musicPlaying && (
+        <button
+          className={`mute-btn ${muted ? 'muted' : ''}`}
+          aria-label={muted ? 'Unmute music' : 'Mute music'}
+          onClick={toggleMute}
+        >
+          {muted ? <MusicOffIcon sx={{ fontSize: '1.4rem' }} /> : <MusicNoteIcon sx={{ fontSize: '1.4rem' }} />}
+        </button>
+      )}
 
       <audio ref={matchRef} src="/audio/match-strike.mp3" preload="auto" />
       <audio ref={vinylRef} src="/audio/vinyl-static.mp3" preload="auto" />
