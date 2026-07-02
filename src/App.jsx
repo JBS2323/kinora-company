@@ -104,36 +104,47 @@ export default function App() {
     <div className={`stage ${bgLoaded ? 'loaded' : ''}`} onPointerDown={unlockAudio} onKeyDown={unlockAudio}>
       <img
         className={`bg ${lit ? 'fade-out' : ''}`}
-        src="/KINORA-LANDING.svg"
-        alt="Kinora"
+        src="/KINORA-LANDING-BG-1.svg"
+        alt=""
         onLoad={() => setBgLoaded(true)}
       />
       <img
         className={`bg ${lit ? 'fade-in' : 'hidden'}`}
-        src="/KINORA-LANDING-2.svg"
-        alt="Kinora — currently gathering"
+        src="/KINORA-LANDING-2-BG.svg"
+        alt=""
       />
 
-      <button
-        className="logo-hotspot"
-        aria-label="Light the candle"
-        onClick={handleClick}
-      />
+      <div className="center-col">
+        <div className={`coords ${lit ? 'visible' : ''}`}>
+          <span className="coord-location">43.6548° N, 79.3883° W</span>
+          <span className="coord-sep"> | </span>
+          <span className="coord-status">CURRENTLY GATHERING</span>
+        </div>
+
+        <div className="logo-wrap">
+          <img src="/kinora-favicon.png" className="logo-img" alt="Kinora" />
+          <button
+            className="logo-hotspot"
+            aria-label="Light the candle"
+            onClick={handleClick}
+          />
+        </div>
+
+        <div className={`links ${lit ? 'visible' : ''}`}>
+          <a href="mailto:info@kinoraco.com">REQUEST AN INTRODUCTION</a>
+          <span className="sep">·</span>
+          <a href="mailto:circle@kinoraco.com">ENTER THE CONVERSATION</a>
+        </div>
+      </div>
 
       <div className={`bottom-bar ${bgLoaded ? 'visible' : ''}`}>
-        <span className="bar-text">KINORA &amp; COMPANY | TORONTO, ONTARIO, CANADA | ENERGY AROUND THE TABLE</span>
-      </div>
-
-      <div className={`coords ${lit ? 'visible' : ''}`}>
-        <span className="coord-location">43.6548° N, 79.3883° W</span>
-        <span className="coord-sep"> | </span>
-        <span className="coord-status">CURRENTLY GATHERING</span>
-      </div>
-
-      <div className={`links ${lit ? 'visible' : ''}`}>
-        <a href="mailto:info@kinoraco.com">REQUEST AN INTRODUCTION</a>
-        <span className="sep">·</span>
-        <a href="mailto:circle@kinoraco.com">ENTER THE CONVERSATION</a>
+        <div className="ticker-track">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className="bar-text" aria-hidden={i > 0 ? 'true' : undefined}>
+              KINORA &amp; COMPANY&nbsp;&nbsp;|&nbsp;&nbsp;TORONTO, ONTARIO, CANADA&nbsp;&nbsp;|&nbsp;&nbsp;ENERGY AROUND THE TABLE&nbsp;&nbsp;|&nbsp;&nbsp;
+            </span>
+          ))}
+        </div>
       </div>
 
       {musicPlaying && (

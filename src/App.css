@@ -39,13 +39,38 @@ html, body, #root {
 .bg.fade-out { opacity: 0; }
 .bg.fade-in { opacity: 1; }
 
-.logo-hotspot {
+/* ── Center column: coords | logo | links ── */
+
+.center-col {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(60px, 12vw, 140px);
-  height: clamp(50px, 10vh, 110px);
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(7rem, 26vh, 16rem);
+  z-index: 1;
+}
+
+.logo-wrap {
+  position: relative;
+  width: clamp(70px, 13vw, 150px);
+  flex-shrink: 0;
+}
+
+.logo-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.logo-hotspot {
+  position: absolute;
+  inset: 0;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -55,11 +80,27 @@ html, body, #root {
 
 .logo-hotspot:focus { outline: none; }
 
+/* ── Coordinates ── */
+
+.coords {
+  white-space: nowrap;
+  text-align: center;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(0.6rem, 1.1vw, 1rem);
+  letter-spacing: 0.23em;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.6s ease 1s;
+}
+
+.coords.visible {
+  opacity: 1;
+}
+
+/* ── Email links ── */
+
 .links {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(3rem, 18vh, 9rem);
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: clamp(0.75rem, 2vw, 1.5rem);
@@ -96,14 +137,14 @@ html, body, #root {
   opacity: 0.5;
 }
 
+/* ── Scrolling bottom ticker ── */
+
 .bottom-bar {
   position: absolute;
   bottom: clamp(1rem, 2.5vh, 2rem);
-  left: clamp(1.5rem, 3vw, 3rem);
-  right: clamp(1.5rem, 3vw, 3rem);
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  left: 0;
+  right: 0;
+  overflow: hidden;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: clamp(0.42rem, 0.55vw, 0.6rem);
   letter-spacing: 0.22em;
@@ -113,15 +154,14 @@ html, body, #root {
   transition: opacity 0.6s ease;
 }
 
-.bottom-bar::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.6);
-}
-
 .bottom-bar.visible {
   opacity: 1;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 28s linear infinite;
 }
 
 .bar-text {
@@ -129,25 +169,12 @@ html, body, #root {
   flex-shrink: 0;
 }
 
-.coords {
-  position: absolute;
-  top: clamp(3rem, 18vh, 9rem);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  text-align: center;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: clamp(0.6rem, 1.1vw, 1rem);
-  letter-spacing: 0.23em;
-  color: #fff;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.6s ease 1s;
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
 }
 
-.coords.visible {
-  opacity: 1;
-}
+/* ── Music button ── */
 
 .mute-btn {
   position: absolute;
@@ -161,6 +188,7 @@ html, body, #root {
   opacity: 0.45;
   transition: opacity 0.3s ease;
   -webkit-tap-highlight-color: transparent;
+  z-index: 2;
 }
 
 .mute-btn:hover { opacity: 0.9; }
@@ -168,20 +196,11 @@ html, body, #root {
 .mute-btn.muted { opacity: 0.3; }
 .mute-btn.muted:hover { opacity: 0.7; }
 
+/* ── Mobile ── */
 
 @media (max-width: 640px) {
-  .bottom-bar {
-    justify-content: center;
-    font-size: clamp(0.42rem, 2.2vw, 0.55rem);
-  }
-
-  .bottom-bar::after {
-    display: none;
-  }
-
-  .bar-text {
-    white-space: normal;
-    text-align: center;
+  .center-col {
+    gap: clamp(4rem, 14vh, 9rem);
   }
 
   .coords {
@@ -202,14 +221,16 @@ html, body, #root {
     gap: 0.9rem;
     font-size: clamp(0.58rem, 3.2vw, 0.72rem);
     letter-spacing: 0.18em;
-    bottom: clamp(3rem, 16vh, 7rem);
     white-space: normal;
     text-align: center;
-    width: 85%;
-    transform: translateX(-50%);
+    width: 85vw;
   }
 
   .links .sep {
     display: none;
+  }
+
+  .bottom-bar {
+    font-size: clamp(0.42rem, 2.2vw, 0.55rem);
   }
 }
